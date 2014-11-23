@@ -12,8 +12,14 @@
             scope: {},
             controller: 'CanvasController',
             controllerAs: 'vm',
-            templateUrl: 'canvas/canvas.directive.html'
+            templateUrl: 'canvas/canvas.directive.html',
+            link: link
         };
+    }
+
+    function link()
+    {
+        
     }
 
 })();
