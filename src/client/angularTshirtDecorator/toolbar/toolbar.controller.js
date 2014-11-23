@@ -9,12 +9,12 @@
         var vm = this;
         vm.onUno = function()
         {
-        	itemsModel.add("Uno");
+        	itemsModel.add({type: 'text', data: 'Uno'});
         };
 
         vm.onDos = function()
         {
-        	itemsModel.add("Dos");
+        	itemsModel.add({type: 'text', data: 'Dos'});
         };
         
         

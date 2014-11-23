@@ -14,7 +14,16 @@
             add: function(item)
             {
                 this.items.push(item);
-                $rootScope.$broadcast('test');
+                $rootScope.$broadcast('itemsModel:add', item);
+            },
+
+            remove: function(item)
+            {
+                _.remove(this.items, function(anItem)
+                {
+                    return anItem == item;
+                });
+                $rootScope.$broadcast('itemsModel:remove', item);
             }
         };
 

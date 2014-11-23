@@ -19,9 +19,18 @@
 
     function link($scope, element, attrs, CanvasController, $rootScope)
     {
-        $scope.$on('test', function()
+        $scope.$on('itemsModel:add', function(event, item)
         {
-            console.log('herp');
+            console.log("item:", item);
+            switch(item.type)
+            {
+                case 'text':
+                    element.append('<span>' + item.data + '</span>');
+                    break;
+
+                default:
+                    console.warn("Unknown type:", item.type);
+            }
         });
     }
 
