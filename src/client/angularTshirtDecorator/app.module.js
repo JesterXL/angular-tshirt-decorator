@@ -4,6 +4,8 @@
     angular
         .module('app', [
             'ngAnimate',
-            'ui.router'
+            'ui.router',
+            'app.toolbar',
+            'app.canvas'
             ]);
 })();

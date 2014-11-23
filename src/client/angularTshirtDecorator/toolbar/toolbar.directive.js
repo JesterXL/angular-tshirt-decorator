@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.canvas')
+        .module('app.toolbar')
 		.directive('jxlToolbar', jxlToolbar);
 
     function jxlToolbar()
@@ -12,7 +12,7 @@
             scope: {},
             controller: 'ToolbarController',
             controllerAs: 'vm',
-            templateUrl: 'toolbar/toolbar.directive.html'
+            templateUrl: 'angularTshirtDecorator/toolbar/toolbar.directive.html'
         };
     }
 
