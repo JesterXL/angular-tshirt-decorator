@@ -4,14 +4,9 @@
         .controller('CanvasController', CanvasController);
 
     /* ngInject */
-    function CanvasController($scope, itemsModel)
+    function CanvasController($scope)
     {
         var vm = this;
-     	$scope.$watch('itemsModel', function(oldValue, newValue)
-     	{
-     		console.log("old:", oldValue);
-     		console.log("new:", newValue);
-     	}); 
         
     }
 })();

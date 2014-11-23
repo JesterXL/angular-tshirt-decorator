@@ -9,8 +9,16 @@
     function itemsModel($rootScope)
     {
         var itemsModel = {
-            items: []
+            items: [],
+
+            add: function(item)
+            {
+                this.items.push(item);
+                $rootScope.$broadcast('test');
+            }
         };
+
+
         return itemsModel;
     }
 

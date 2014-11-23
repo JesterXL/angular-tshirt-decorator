@@ -5,7 +5,7 @@
         .module('app.canvas')
 		.directive('jxlCanvas', jxlCanvas);
 
-    function jxlCanvas()
+    function jxlCanvas(itemsModel)
     {
         return {
             restrict: 'E',
@@ -17,9 +17,12 @@
         };
     }
 
-    function link()
+    function link($scope, element, attrs, CanvasController, $rootScope)
     {
-        
+        $scope.$on('test', function()
+        {
+            console.log('herp');
+        });
     }
 
 })();
