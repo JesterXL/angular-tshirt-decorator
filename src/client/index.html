@@ -5,6 +5,28 @@
     <title>TShirt Configurator</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <style>
+    /* Prevent the text contents of draggable elements from being selectable. */
+    [draggable] {
+      -moz-user-select: none;
+      -khtml-user-select: none;
+      -webkit-user-select: none;
+      user-select: none;
+      /* Required to make elements draggable in old WebKit */
+      -khtml-user-drag: element;
+      -webkit-user-drag: element;
+      cursor: move;
+    }
+
+    .canvasContainer {
+      width: 640px; 
+      height: 480px; 
+      background-color: #EEEEEE;
+      display: block;
+      position: absolute;
+    }
+    </style>
+
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <!-- build:css app.bowerDependencies.css -->
@@ -27,7 +49,7 @@
 
 <h1>TShirt Configurator</h1>
 <jxl-toolbar></jxl-toolbar>
-<jxl-canvas></jxl-canvas>
+<jxl-canvas class="canvasContainer"></jxl-canvas>
 <div ui-view class="container"></div>
 
 <!--[if lt IE 9]>

@@ -14,7 +14,7 @@
 
         vm.onDos = function()
         {
-        	itemsModel.add({type: 'text', data: 'Dos'});
+        	itemsModel.add({type: 'image', data: 'https://www.google.com/images/srpr/logo11w.png'});
         };
         
         
