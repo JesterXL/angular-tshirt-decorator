@@ -41,6 +41,8 @@ module.exports = function (grunt) {
 
     var bowerClasses = [];
     bowerClasses = require('wiredep')().js;
+    console.log("*** bowerClasses ***");
+    console.log(bowerClasses);
 
     var bowerCss = [];
     bowerCss = require('wiredep')().css;
