@@ -24,43 +24,80 @@
 
     function link($scope, element, attrs, CanvasController)
     {
-         //Create a stage by getting a reference to the canvas
-        // var ourStage = new createjs.Stage("mainCanvas");
-        // //Create a Shape DisplayObject.
-        // var circle = new createjs.Shape();
-        // circle.graphics.beginFill("red").drawCircle(0, 0, 40);
-        // //Set position of Shape instance.
-        // circle.x = circle.y = 50;
-        // //Add Shape instance to stage display list.
-        // ourStage.addChild(circle);
-        // //Update stage will render next frame
-        // ourStage.update();
+        var ourStage = new createjs.Stage("mainCanvas");
+        ourStage.enableMouseOver(10);
+        ourStage.mouseMoveOutside = true;
 
+        function tick(event)
+        {
+            //ourStage.update(event);
+        }
+        createjs.Ticker.addEventListener("tick", tick);
 
-        // $scope.dragging = false;
-        $scope.ids = 0;
 
         $scope.$on('itemsModel:add', function(event, item)
         {
-            console.log("item:", item);
-            $scope.ids++;
             var createdItem;
             switch(item.type)
             {
                 case 'text':
-                    createdItem = document.createElement('<div data-obj="' + item.type + '" data-id="' + $scope.ids + '" style="position: absolute; top: 0px; left: 0px;">' + item.data + '</div>');
+                    createdItem = new createjs.Text(item.data, "20px Arial", "#ff7700");
+                    createdItem.x = 100;
+                    createdItem.y = 100;
+                    createdItem.textBaseline = "alphabetic";
                     break;
 
                 case 'image':
-                    createdItem = compile('<jxl-image-object src="' + item.data + '"></jxl-image-object>')($scope)[0];
+                    createdItem = new createjs.Bitmap(item.data);
+                    createdItem.image.onload = function()
+                    {
+                        ourStage.update();
+                    };
+                    createdItem.addEventListener("mousedown", function()
+                    {
+
+                    });
+                    createdItem.addEventListener("pressmove", function(event)
+                    {
+                        this.x = event.stageX;
+                        this.y = event.stageY;
+                    });
                     break;
 
                 default:
                     console.warn("Unknown type:", item.type);
             }
-            $(createdItem).draggable();
-            element.append(createdItem);
+            ourStage.addChild(createdItem);
+            ourStage.update();
         });
+
+
+
+
+        // $scope.dragging = false;
+        // $scope.ids = 0;
+
+        // $scope.$on('itemsModel:add', function(event, item)
+        // {
+        //     console.log("item:", item);
+        //     $scope.ids++;
+        //     var createdItem;
+        //     switch(item.type)
+        //     {
+        //         case 'text':
+        //             createdItem = document.createElement('<div data-obj="' + item.type + '" data-id="' + $scope.ids + '" style="position: absolute; top: 0px; left: 0px;">' + item.data + '</div>');
+        //             break;
+
+        //         case 'image':
+        //             createdItem = compile('<jxl-image-object src="' + item.data + '"></jxl-image-object>')($scope)[0];
+        //             break;
+
+        //         default:
+        //             console.warn("Unknown type:", item.type);
+        //     }
+        //     $(createdItem).draggable();
+        //     element.append(createdItem);
+        // });
 
 
         // $scope.stopDrag = function()

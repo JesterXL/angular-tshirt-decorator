@@ -6,7 +6,6 @@
             'ngAnimate',
             'ui.router',
             'app.toolbar',
-            'app.canvas',
-            'app.transformControls'
+            'app.canvas'
             ]);
 })();

@@ -14,7 +14,7 @@
 
         vm.onDos = function()
         {
-        	itemsModel.add({type: 'image', data: 'https://www.google.com/images/srpr/logo11w.png'});
+        	itemsModel.add({type: 'image', data: 'angularTshirtDecorator/HannibalSmith.jpg'});
         };
         
         
