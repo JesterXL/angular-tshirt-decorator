@@ -14,7 +14,7 @@
 
         vm.onDos = function()
         {
-        	itemsModel.add({type: 'image', data: 'angularTshirtDecorator/HannibalSmith.jpg'});
+        	itemsModel.add({type: 'image', data: 'angularTshirtDecorator/images/HannibalSmith.jpg'});
         };
         
         

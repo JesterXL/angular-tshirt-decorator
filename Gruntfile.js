@@ -113,9 +113,9 @@ module.exports = function (grunt) {
 
             devAssets: {
                 expand: true,
-                cwd: 'src/client/<%= PROJECT_NAME %>/layout/assets',
+                cwd: 'src/client/<%= PROJECT_NAME %>/images',
                 src: ['**/*.{jpg,png,svg,gif,ico}'],
-                dest: 'build'
+                dest: 'build/<%= PROJECT_NAME %>/images'
             },
 
             devTemplates: {

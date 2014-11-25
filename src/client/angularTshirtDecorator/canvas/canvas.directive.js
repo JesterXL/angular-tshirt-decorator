@@ -49,18 +49,21 @@
 
                 case 'image':
                     createdItem = new createjs.Bitmap(item.data);
+                    createdItem.cursor = "pointer";
                     createdItem.image.onload = function()
                     {
                         ourStage.update();
                     };
-                    createdItem.addEventListener("mousedown", function()
+                    createdItem.addEventListener("mousedown", function(event)
                     {
-
+                        createdItem.offset = {x:createdItem.x-event.stageX, y:createdItem.y-event.stageY};
                     });
                     createdItem.addEventListener("pressmove", function(event)
                     {
-                        this.x = event.stageX;
-                        this.y = event.stageY;
+                        console.log("canvas.x:" + createdItem.x + ", stageX: " + event.stageX);
+                        createdItem.x = event.stageX + createdItem.offset.x;
+                        createdItem.y = event.stageY + createdItem.offset.y;
+                        ourStage.update();
                     });
                     break;
 
