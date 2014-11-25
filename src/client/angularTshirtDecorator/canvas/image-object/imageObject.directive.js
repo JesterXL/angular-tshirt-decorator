@@ -12,21 +12,11 @@
         return {
             restrict: 'E',
             scope: {
-                cow: '@',
-                test: '@'
+                src: '@'
             },
             templateUrl: 'angularTshirtDecorator/canvas/image-object/imageObject.directive.html',
-            link: link
             
         };
-    }
-
-    function link(scope, element, attrs, ImageObjectController)
-    {
-        console.log("imageObject::link");
-        console.log("scope.cow:", scope.cow);
-        scope.test = 'mytest';
-
     }
 
 

@@ -52,19 +52,13 @@
                     break;
 
                 case 'image':
-                    var createdItem = compile('<jxl-image-object data-cow="' + 'moo man' + '"></jxl-image-object>')($scope)[0];
-                    createdItem.setAttribute('cow', item.data);
-                    createdItem.setAttribute('test', item.data);
-                    element.append(createdItem);
-                    // <img data-obj="' + item.type + '" data-id="' + $scope.ids + '" src="' + item.data + '" draggable="false" style="position: absolute; top: 0px; left: 0px;"></img>'
-                    
-                    
+                    createdItem = compile('<jxl-image-object src="' + item.data + '"></jxl-image-object>')($scope)[0];
                     break;
 
                 default:
                     console.warn("Unknown type:", item.type);
             }
-            // $(createdItem).draggable();
+            $(createdItem).draggable();
             element.append(createdItem);
         });
 
