@@ -5,8 +5,13 @@
         .module('app.canvas')
 		.directive('jxlCanvas', jxlCanvas);
 
-    function jxlCanvas(itemsModel)
+    var compile;
+    var rootScope;
+
+    function jxlCanvas(itemsModel, $compile, $rootScope)
     {
+        compile = $compile;
+        rootScope = $rootScope;
         return {
             restrict: 'E',
             scope: {},
@@ -17,7 +22,7 @@
         };
     }
 
-    function link($scope, element, attrs, CanvasController, $rootScope)
+    function link($scope, element, attrs, CanvasController)
     {
          //Create a stage by getting a reference to the canvas
         // var ourStage = new createjs.Stage("mainCanvas");
@@ -47,15 +52,19 @@
                     break;
 
                 case 'image':
-                    createdItem = document.createElement('img');
+                    var createdItem = compile('<jxl-image-object data-cow="' + 'moo man' + '"></jxl-image-object>')($scope)[0];
+                    createdItem.setAttribute('cow', item.data);
+                    createdItem.setAttribute('test', item.data);
+                    element.append(createdItem);
                     // <img data-obj="' + item.type + '" data-id="' + $scope.ids + '" src="' + item.data + '" draggable="false" style="position: absolute; top: 0px; left: 0px;"></img>'
-                    createdItem.src = item.data;
+                    
+                    
                     break;
 
                 default:
                     console.warn("Unknown type:", item.type);
             }
-            $(createdItem).draggable();
+            // $(createdItem).draggable();
             element.append(createdItem);
         });
 

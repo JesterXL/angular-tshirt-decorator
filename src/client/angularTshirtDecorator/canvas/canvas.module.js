@@ -2,5 +2,5 @@
     'use strict';
 
     angular
-        .module('app.canvas', []);
+        .module('app.canvas', ['app.canvas.image']);
 })();
