@@ -10,7 +10,7 @@
         vm.itemsModel = itemsModel;
         vm.onSelectLayer = function(event, item)
         {
-        	console.log("item:", item);
+        	itemsModel.setSelectedItem(item);
         };
         
     }
