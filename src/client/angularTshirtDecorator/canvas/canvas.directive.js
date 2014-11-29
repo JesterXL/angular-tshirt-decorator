@@ -57,10 +57,11 @@
                     createdItem.addEventListener("mousedown", function(event)
                     {
                         createdItem.offset = {x:createdItem.x-event.stageX, y:createdItem.y-event.stageY};
+                        createdItem.parent.setChildIndex(createdItem, createdItem.parent.getNumChildren() - 1);
+                        ourStage.update();
                     });
                     createdItem.addEventListener("pressmove", function(event)
                     {
-                        console.log("canvas.x:" + createdItem.x + ", stageX: " + event.stageX);
                         createdItem.x = event.stageX + createdItem.offset.x;
                         createdItem.y = event.stageY + createdItem.offset.y;
                         ourStage.update();
