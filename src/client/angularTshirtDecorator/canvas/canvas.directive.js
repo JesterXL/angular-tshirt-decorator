@@ -7,9 +7,11 @@
 
     var compile;
     var rootScope;
+    var _itemsModel;
 
     function jxlCanvas(itemsModel, $compile, $rootScope)
     {
+        _itemsModel = itemsModel;
         compile = $compile;
         rootScope = $rootScope;
         return {
@@ -56,9 +58,15 @@
                     };
                     createdItem.addEventListener("mousedown", function(event)
                     {
-                        createdItem.offset = {x:createdItem.x-event.stageX, y:createdItem.y-event.stageY};
-                        createdItem.parent.setChildIndex(createdItem, createdItem.parent.getNumChildren() - 1);
-                        ourStage.update();
+                        $scope.$apply(function()
+                        {
+                            createdItem.offset = {x:createdItem.x-event.stageX, y:createdItem.y-event.stageY};
+                            createdItem.parent.setChildIndex(createdItem, createdItem.parent.getNumChildren() - 1);
+                            _itemsModel.setToTop(createdItem.data);
+                            ourStage.update();
+                        });
+                        
+
                     });
                     createdItem.addEventListener("pressmove", function(event)
                     {
@@ -71,6 +79,7 @@
                 default:
                     console.warn("Unknown type:", item.type);
             }
+            createdItem.data = item;
             ourStage.addChild(createdItem);
             ourStage.update();
         });

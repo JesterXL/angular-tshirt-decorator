@@ -25,6 +25,7 @@
 
         var itemsModel = {
             items: [],
+            selectedItem: null,
 
             add: function(item)
             {
@@ -40,6 +41,18 @@
                     return anItem == item;
                 });
                 $rootScope.$broadcast('itemsModel:remove', item);
+            },
+
+            setSelectedItem: function(item)
+            {
+                this.selectedItem = item;
+                $rootScope.$broadcast('itemsModel:selected', item);
+            },
+
+            setToTop: function(item)
+            {
+                this.items.splice(_.findIndex(this.items, item), 1);
+                this.items.push(item);
             }
         };
 

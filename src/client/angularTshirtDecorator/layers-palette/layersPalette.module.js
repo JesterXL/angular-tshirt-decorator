@@ -2,5 +2,5 @@
     'use strict';
 
     angular
-        .module('app.layersPalette', []);
+        .module('app.layersPalette', ['app.layersPalette.layerListItem']);
 })();
