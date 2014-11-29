@@ -34,23 +34,14 @@
             {
                 return;
             }
-            console.log("************");
-
             var left = parseFloat(element.css('left'));
             var top = parseFloat(element.css('top'));
-            console.log("left: " + left + ", top: " + top);
             offset = {x: left - event.pageX, y: top - event.pageY};
 
             var moveIt = function(moveEvent)
             {
-                console.log("-------------");
-                console.log("before:", element.css('left'));
                 var valueLeft = _mouse.x + offset.x + 'px';
-                console.log("_mouse.x:", _mouse.x);
-                console.log("offset.x:", offset.x);
-                console.log("setting to valueLeft:", valueLeft);
                 element.css('left', valueLeft);
-                console.log("after:", element.css('left'));
                 element.css('top', _mouse.y + offset.y + 'px');
                 lastID = _window.requestAnimationFrame(moveIt);
             };

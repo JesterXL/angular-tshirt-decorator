@@ -8,11 +8,27 @@
     /* ngInject */
     function itemsModel($rootScope)
     {
+        var IDs = 0;
+
+        function getLayerName()
+        {
+            return "Layer " + (++IDs);
+        }
+
+        function setLayerName(item)
+        {
+            if(typeof item.label == 'undefined')
+            {
+                item.label = getLayerName();
+            }
+        }
+
         var itemsModel = {
             items: [],
 
             add: function(item)
             {
+                setLayerName(item);
                 this.items.push(item);
                 $rootScope.$broadcast('itemsModel:add', item);
             },
