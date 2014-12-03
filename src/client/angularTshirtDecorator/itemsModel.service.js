@@ -46,7 +46,7 @@
             setSelectedItem: function(item)
             {
                 this.selectedItem = item;
-                $rootScope.$broadcast('itemsModel:selected', item);
+                // $rootScope.$broadcast('itemsModel:selected', item);
             },
 
             setToTop: function(item)

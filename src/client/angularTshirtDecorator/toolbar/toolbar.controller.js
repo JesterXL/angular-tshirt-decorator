@@ -4,17 +4,28 @@
         .controller('ToolbarController', ToolbarController);
 
     /* ngInject */
-    function ToolbarController($scope, itemsModel)
+    function ToolbarController($scope, itemsModel, editMode)
     {
+        console.log("editMode:", editMode);
         var vm = this;
-        vm.onUno = function()
+        vm.editMode = editMode;
+        vm.onSelect = function()
         {
-        	itemsModel.add({type: 'text', data: 'Uno'});
+            vm.editMode.setMode(vm.editMode.MODE_SELECT);
         };
 
-        vm.onDos = function()
+        vm.onText = function()
         {
-        	itemsModel.add({type: 'image', data: 'angularTshirtDecorator/images/HannibalSmith.jpg'});
+            vm.editMode.setMode(vm.editMode.MODE_TEXT)
+            .then(function()
+            {
+                console.log(".... and text.");
+            });
+        };
+
+        vm.onImage = function()
+        {
+            vm.editMode.setMode(vm.editMode.MODE_IMAGE);
         };
         
         

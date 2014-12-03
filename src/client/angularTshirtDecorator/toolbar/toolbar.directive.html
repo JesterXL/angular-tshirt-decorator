@@ -1,4 +1,6 @@
 <div>
-	<button ng-click="vm.onUno()">Uno</button>
-	<button ng-click="vm.onDos()">Dos</button>
+	<p>editMode: {{vm.editMode.getMode()}}</p>
+	<span class="glyphicon glyphicon-hand-up" ng-click="vm.onSelect()"></span>
+	<span class="glyphicon glyphicon-font" ng-click="vm.onText()"></span>
+	<span class="glyphicon glyphicon-picture" ng-click="vm.onImage()"></span>
 </div>

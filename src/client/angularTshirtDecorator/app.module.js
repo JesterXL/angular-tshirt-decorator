@@ -7,6 +7,7 @@
             'ui.router',
             'app.toolbar',
             'app.canvas',
-            'app.layersPalette'
+            'app.layersPalette',
+            'com.jessewarden.statemachine'
             ]);
 })();
