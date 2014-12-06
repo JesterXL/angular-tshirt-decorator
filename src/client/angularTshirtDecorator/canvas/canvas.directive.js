@@ -80,18 +80,16 @@
             var mouseDownPressed = false;
             element.on('mousedown', function(event)
             {
-                console.log("sup");
                 mouseDownPressed = true;
                 panOffset = {x: mainContainer.x - event.offsetX, 
                             y: mainContainer.y - event.offsetY};
-                // event.preventDefault();
-                // event.stopImmediatePropagation();
+                event.preventDefault();
+                event.stopImmediatePropagation();
             });
             element.on('mousemove', function(event)
             {
                 if(mouseDownPressed == true)
                 {
-                    console.log("sup 2");
                     mainContainer.x = event.offsetX + panOffset.x;
                     mainContainer.y = event.offsetY + panOffset.y;
                     ourStage.update();
@@ -101,9 +99,7 @@
             });
             element.on('mouseup', function(event)
             {
-                console.log('mouse up');
                 mouseDownPressed = false;
-                removePressEvents();
                 event.preventDefault();
                 event.stopImmediatePropagation();
             });
@@ -111,9 +107,9 @@
 
         function removePressEvents()
         {
-            element.on('mousedown', null);
-            element.on('pressmove', null);
-            element.on('mouseup', null);
+            element.off('mousedown');
+            element.off('pressmove');
+            element.off('mouseup');
         }
 
         function createObject(mouseEvent)
@@ -149,8 +145,14 @@
 
                 case _editMode.MODE_TEXT:
                     createdItem = new createjs.Text('Default', "20px Arial", "#ff7700");
-                    createdItem.x = mouseEvent.offsetX;
-                    createdItem.y = mouseEvent.offsetY;
+                    
+                    // var pt = this.localToGlobal(x, y);
+                    // pt = target.globalToLocal(pt.x, pt.y);
+                    
+                    var point = mainContainer.globalToLocal(mouseEvent.offsetX, mouseEvent.offsetY);
+
+                    createdItem.x = point.x;
+                    createdItem.y = point.y;
                     createdItem.textBaseline = "alphabetic";
                     break;
 
