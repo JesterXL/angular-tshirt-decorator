@@ -28,9 +28,14 @@
             vm.editMode.setMode(vm.editMode.MODE_IMAGE);
         };
         
-        vm.onZoom = function()
+        vm.onZoomIn = function()
         {
-            vm.editMode.setMode(vm.editMode.MODE_ZOOM);
+            vm.editMode.setMode(vm.editMode.MODE_ZOOM_IN);
+        };
+
+        vm.onZoomOut = function()
+        {
+            vm.editMode.setMode(vm.editMode.MODE_ZOOM_OUT);
         };
         
     }

@@ -34,10 +34,29 @@
         ourStage.mouseMoveOutside = true;
         var mainContainer = new createjs.Container();
         ourStage.addChild(mainContainer);
+        var zoom = {
+            get x()
+            {
+                return mainContainer.scaleX;
+            },
+            set x(value)
+            {
+                mainContainer.scaleX = value;
+            },
+
+            get y()
+            {
+                return mainContainer.scaleY;
+            },
+            set y(value)
+            {
+                mainContainer.scaleY = value;
+            }
+        };
 
         element.on('click', function(mouseEvent)
         {
-            createObject();
+            createObject(mouseEvent);
         });
 
         // function tick(event)
@@ -54,7 +73,7 @@
         // MODE_BOX: 'box',
         // MODE_LINE: 'line',
 
-        function createObject()
+        function createObject(mouseEvent)
         {
             var createdItem;
             switch(_editMode.getMode())
@@ -66,19 +85,30 @@
                     
                     break;
 
-                case _editMode.MODE_ZOOM:
-                    // mainContainer.scaleX = mainContainer.scaleY = 2;
-                    // ourStage.update();
-                    TweenLite.to(mainContainer, 2, {scaleX: 2, scaleY: 2, onUpdate: function()
+                case _editMode.MODE_ZOOM_IN:
+                    var targetX = zoom.x * 2;
+                    var targetY = zoom.y * 2;
+                    TweenLite.to(zoom, 0.5, {x: targetX, y: targetY, onUpdate: function()
                     {
                         ourStage.update();
-                    }});
+                    },
+                    ease:Strong.easeOut});
+                    return;
+
+                case _editMode.MODE_ZOOM_OUT:
+                    var targetX = zoom.x / 2;
+                    var targetY = zoom.y / 2;
+                    TweenLite.to(zoom, 0.5, {x: targetX, y: targetY, onUpdate: function()
+                    {
+                        ourStage.update();
+                    },
+                    ease:Strong.easeOut});
                     return;
 
                 case _editMode.MODE_TEXT:
                     createdItem = new createjs.Text('Default', "20px Arial", "#ff7700");
-                    createdItem.x = 100;
-                    createdItem.y = 100;
+                    createdItem.x = mouseEvent.offsetX;
+                    createdItem.y = mouseEvent.offsetY;
                     createdItem.textBaseline = "alphabetic";
                     break;
 

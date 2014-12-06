@@ -11,7 +11,8 @@
         var editMode = {
             MODE_SELECT: 'select',
             MODE_PAN: 'pan',
-            MODE_ZOOM: 'zoom',
+            MODE_ZOOM_IN: 'zoomIn',
+            MODE_ZOOM_OUT: 'zoomOut',
             MODE_TEXT: 'text',
             MODE_IMAGE: 'image',
             MODE_BOX: 'box',
@@ -32,7 +33,8 @@
         var fsm = new jxlStateMachine();
         fsm.addState(editMode.MODE_SELECT);
         fsm.addState(editMode.MODE_PAN);
-        fsm.addState(editMode.MODE_ZOOM);
+        fsm.addState(editMode.MODE_ZOOM_IN);
+        fsm.addState(editMode.MODE_ZOOM_OUT);
         fsm.addState(editMode.MODE_TEXT);
         fsm.addState(editMode.MODE_IMAGE);
         fsm.addState(editMode.MODE_BOX);
