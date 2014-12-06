@@ -29,12 +29,82 @@
 
     function link($scope, element, attrs, CanvasController)
     {
-        var ourStage = new createjs.Stage("mainCanvas");
-        var mainCanvas = element.find('#mainCanvas').get(0);
+        
+        var mainCanvas = element.find('.mainCanvas').get(0);
+        var ourStage = new createjs.Stage(mainCanvas);
+        var rulersCanvas = element.find('.rulersCanvas').get(0);
+        var rulersStage = new createjs.Stage(rulersCanvas);
+
         ourStage.enableMouseOver(10);
         ourStage.mouseMoveOutside = true;
+
+        var stageBackground = new createjs.Shape();
+        stageBackground.graphics.setStrokeStyle(2);
+        stageBackground.graphics.beginStroke("#000000");
+        stageBackground.graphics.beginFill("#00FF00");
+        stageBackground.graphics.drawRect(0, 0, 640, 480);
+        ourStage.addChild(stageBackground);
+
         var mainContainer = new createjs.Container();
         ourStage.addChild(mainContainer);
+
+        var rulersBackground = new createjs.Shape();
+        var topRuler = new createjs.Shape();
+        var bottomRuler = new createjs.Shape();
+
+        topRuler.graphics.setStrokeStyle(2);
+        topRuler.graphics.beginStroke("#000000");
+        topRuler.graphics.beginFill("#FFFFFF");
+        topRuler.graphics.drawRect(0, 0, 640, 32);
+
+        topRuler.graphics.setStrokeStyle(2);
+        var len = 640 / 72;
+        var i;
+        for(i=1; i<len; i++)
+        {
+            var targetDrawX = 72 * i;
+            var targetDrawY = 4;
+            topRuler.graphics.moveTo(targetDrawX, targetDrawY);
+            topRuler.graphics.lineTo(targetDrawX, targetDrawY + (32 - targetDrawY));
+        }
+
+        topRuler.graphics.setStrokeStyle(1);
+        topRuler.graphics.beginStroke("#000000");
+        function isOdd(num) { return num % 2;}
+        len = 640 / 36;
+        for(i=1; i<len; i++)
+        {
+            if(isOdd(i) == false)
+            {
+                continue;
+            }
+            var targetDrawX = 36 * i;
+            var targetDrawY = 16;
+            topRuler.graphics.moveTo(targetDrawX, targetDrawY);
+            topRuler.graphics.lineTo(targetDrawX, targetDrawY + (32 - targetDrawY));
+        }
+
+        topRuler.graphics.setStrokeStyle(2);
+        topRuler.graphics.beginStroke("#000000");
+        len = Math.floor(640 / 12) + 1;
+        for(i=0; i<len; i++)
+        {
+            var targetDrawX = 12 * i;
+            var targetDrawY = 24;
+            topRuler.graphics.moveTo(targetDrawX, targetDrawY);
+            topRuler.graphics.lineTo(targetDrawX, targetDrawY + (32 - targetDrawY));
+        }
+
+        // rulersBackground.graphics.beginFill("#FF0000");
+        // rulersBackground.graphics.drawRect(0, 0, 640, 480);
+
+        rulersStage.addChild(rulersBackground);
+        rulersStage.addChild(topRuler);
+        rulersStage.addChild(bottomRuler);
+
+        rulersStage.update();
+        ourStage.update();
+
         var zoom = {
             get x()
             {
@@ -196,6 +266,7 @@
 
             mainContainer.addChild(createdItem);
             ourStage.update();
+            rulersStage.update();
         }
 
 
