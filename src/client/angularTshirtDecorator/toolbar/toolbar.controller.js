@@ -37,6 +37,11 @@
         {
             vm.editMode.setMode(vm.editMode.MODE_ZOOM_OUT);
         };
+
+        vm.onPan = function()
+        {
+            vm.editMode.setMode(vm.editMode.MODE_PAN);
+        };
         
     }
 })();

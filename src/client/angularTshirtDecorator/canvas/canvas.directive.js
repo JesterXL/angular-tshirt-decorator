@@ -30,6 +30,7 @@
     function link($scope, element, attrs, CanvasController)
     {
         var ourStage = new createjs.Stage("mainCanvas");
+        var mainCanvas = element.find('#mainCanvas').get(0);
         ourStage.enableMouseOver(10);
         ourStage.mouseMoveOutside = true;
         var mainContainer = new createjs.Container();
@@ -59,19 +60,61 @@
             createObject(mouseEvent);
         });
 
-        // function tick(event)
-        // {
-        //     ourStage.update(event);
-        // }
-        // createjs.Ticker.addEventListener("tick", tick);
+        rootScope.$on('stateMachine:change', function(event, stateEvent)
+        {
+            console.log("state machine change, to:", stateEvent.to);
+            removePressEvents();
+            switch(stateEvent.to)
+            {
+                case _editMode.MODE_PAN:
+                    addPressEvents();
+                    return;
+            }
+        });
+        
+        var panOffset = null;
+        
 
-        // MODE_SELECT: 'select',
-        // MODE_PAN: 'pan',
-        // MODE_ZOOM: 'zoom',
-        // MODE_TEXT: 'text',
-        // MODE_IMAGE: 'image',
-        // MODE_BOX: 'box',
-        // MODE_LINE: 'line',
+        function addPressEvents()
+        {
+            var mouseDownPressed = false;
+            element.on('mousedown', function(event)
+            {
+                console.log("sup");
+                mouseDownPressed = true;
+                panOffset = {x: mainContainer.x - event.offsetX, 
+                            y: mainContainer.y - event.offsetY};
+                // event.preventDefault();
+                // event.stopImmediatePropagation();
+            });
+            element.on('mousemove', function(event)
+            {
+                if(mouseDownPressed == true)
+                {
+                    console.log("sup 2");
+                    mainContainer.x = event.offsetX + panOffset.x;
+                    mainContainer.y = event.offsetY + panOffset.y;
+                    ourStage.update();
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                }
+            });
+            element.on('mouseup', function(event)
+            {
+                console.log('mouse up');
+                mouseDownPressed = false;
+                removePressEvents();
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            });
+        }
+
+        function removePressEvents()
+        {
+            element.on('mousedown', null);
+            element.on('pressmove', null);
+            element.on('mouseup', null);
+        }
 
         function createObject(mouseEvent)
         {
@@ -82,8 +125,7 @@
                     return;
 
                 case _editMode.MODE_PAN:
-                    
-                    break;
+                    return;
 
                 case _editMode.MODE_ZOOM_IN:
                     var targetX = zoom.x * 2;
@@ -153,6 +195,8 @@
             mainContainer.addChild(createdItem);
             ourStage.update();
         }
+
+
     }
 
 
