@@ -28,6 +28,10 @@
             vm.editMode.setMode(vm.editMode.MODE_IMAGE);
         };
         
+        vm.onZoom = function()
+        {
+            vm.editMode.setMode(vm.editMode.MODE_ZOOM);
+        };
         
     }
 })();
