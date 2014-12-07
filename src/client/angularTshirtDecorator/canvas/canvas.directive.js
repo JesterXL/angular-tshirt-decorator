@@ -52,78 +52,55 @@
         var topRuler = new createjs.Shape();
         var bottomRuler = new createjs.Shape();
 
-        topRuler.graphics.setStrokeStyle(2);
-        topRuler.graphics.beginStroke("#000000");
-        topRuler.graphics.beginFill("#FFFFFF");
-        topRuler.graphics.drawRect(0, 0, 640, 32);
-
-        topRuler.graphics.setStrokeStyle(2);
-        var len = 640 / 72;
-        var i;
-        for(i=1; i<len; i++)
-        {
-            var targetDrawX = 72 * i;
-            var targetDrawY = 4;
-            topRuler.graphics.moveTo(targetDrawX, targetDrawY);
-            topRuler.graphics.lineTo(targetDrawX, targetDrawY + (32 - targetDrawY));
-        }
-
-        topRuler.graphics.setStrokeStyle(1);
-        topRuler.graphics.beginStroke("#000000");
-        function isOdd(num) { return num % 2;}
-        len = 640 / 36;
-        for(i=1; i<len; i++)
-        {
-            if(isOdd(i) == false)
-            {
-                continue;
-            }
-            var targetDrawX = 36 * i;
-            var targetDrawY = 16;
-            topRuler.graphics.moveTo(targetDrawX, targetDrawY);
-            topRuler.graphics.lineTo(targetDrawX, targetDrawY + (32 - targetDrawY));
-        }
-
-        topRuler.graphics.setStrokeStyle(2);
-        topRuler.graphics.beginStroke("#000000");
-        len = Math.floor(640 / 12) + 1;
-        for(i=0; i<len; i++)
-        {
-            var targetDrawX = 12 * i;
-            var targetDrawY = 24;
-            topRuler.graphics.moveTo(targetDrawX, targetDrawY);
-            topRuler.graphics.lineTo(targetDrawX, targetDrawY + (32 - targetDrawY));
-        }
-
-        // rulersBackground.graphics.beginFill("#FF0000");
-        // rulersBackground.graphics.drawRect(0, 0, 640, 480);
-
         rulersStage.addChild(rulersBackground);
         rulersStage.addChild(topRuler);
         rulersStage.addChild(bottomRuler);
 
-        rulersStage.update();
         ourStage.update();
 
         var zoom = {
+
             get x()
             {
-                return mainContainer.scaleX;
+                return mainContainer.x;
             },
+
             set x(value)
             {
-                mainContainer.scaleX = value;
+                mainContainer.x = value;
             },
 
             get y()
             {
+                return mainContainer.x;
+            },
+
+            set y(value)
+            {
+                mainContainer.y = value;
+            },
+
+            get scaleX()
+            {
+                return mainContainer.scaleX;
+            },
+            set scaleX(value)
+            {
+                mainContainer.scaleX = value;
+                redrawRulers();
+            },
+
+            get scaleY()
+            {
                 return mainContainer.scaleY;
             },
-            set y(value)
+            set scaleY(value)
             {
                 mainContainer.scaleY = value;
             }
         };
+
+        redrawRulers();
 
         element.on('click', function(mouseEvent)
         {
@@ -151,8 +128,8 @@
             element.on('mousedown', function(event)
             {
                 mouseDownPressed = true;
-                panOffset = {x: mainContainer.x - event.offsetX, 
-                            y: mainContainer.y - event.offsetY};
+                panOffset = {x: zoom.x - event.offsetX, 
+                            y: zoom.y - event.offsetY};
                 event.preventDefault();
                 event.stopImmediatePropagation();
             });
@@ -160,9 +137,10 @@
             {
                 if(mouseDownPressed == true)
                 {
-                    mainContainer.x = event.offsetX + panOffset.x;
-                    mainContainer.y = event.offsetY + panOffset.y;
+                    zoom.x = event.offsetX + panOffset.x;
+                    zoom.y = event.offsetY + panOffset.y;
                     ourStage.update();
+                    redrawRulers();
                     event.preventDefault();
                     event.stopImmediatePropagation();
                 }
@@ -194,9 +172,9 @@
                     return;
 
                 case _editMode.MODE_ZOOM_IN:
-                    var targetX = zoom.x * 2;
-                    var targetY = zoom.y * 2;
-                    TweenLite.to(zoom, 0.5, {x: targetX, y: targetY, onUpdate: function()
+                    var targetX = zoom.scaleX * 2;
+                    var targetY = zoom.scaleY * 2;
+                    TweenLite.to(zoom, 0.5, {scaleX: targetX, scaleY: targetY, onUpdate: function()
                     {
                         ourStage.update();
                     },
@@ -204,9 +182,9 @@
                     return;
 
                 case _editMode.MODE_ZOOM_OUT:
-                    var targetX = zoom.x / 2;
-                    var targetY = zoom.y / 2;
-                    TweenLite.to(zoom, 0.5, {x: targetX, y: targetY, onUpdate: function()
+                    var targetX = zoom.scaleX / 2;
+                    var targetY = zoom.scaleY / 2;
+                    TweenLite.to(zoom, 0.5, {scaleX: targetX, scaleY: targetY, onUpdate: function()
                     {
                         ourStage.update();
                     },
@@ -266,6 +244,58 @@
 
             mainContainer.addChild(createdItem);
             ourStage.update();
+            rulersStage.update();
+        }
+
+        function redrawRulers()
+        {
+            console.log("redrawRulers, zoomx: " + zoom.scaleX);
+
+            topRuler.graphics.setStrokeStyle(2);
+            topRuler.graphics.beginStroke("#000000");
+            topRuler.graphics.beginFill("#FFFFFF");
+            topRuler.graphics.drawRect(0, 0, 640, 32);
+
+            var startX = zoom.x;
+
+            topRuler.graphics.setStrokeStyle(2);
+            var len = 640 / 72;
+            var i;
+            for(i=1; i<len; i++)
+            {
+                var targetDrawX = 72 * i + startX;
+                var targetDrawY = 4;
+                topRuler.graphics.moveTo(targetDrawX, targetDrawY);
+                topRuler.graphics.lineTo(targetDrawX, targetDrawY + (32 - targetDrawY));
+            }
+
+            topRuler.graphics.setStrokeStyle(1);
+            topRuler.graphics.beginStroke("#000000");
+            function isOdd(num) { return num % 2;}
+            len = 640 / 36;
+            for(i=1; i<len; i++)
+            {
+                if(isOdd(i) == false)
+                {
+                    continue;
+                }
+                var targetDrawX = 36 * i + startX;
+                var targetDrawY = 16;
+                topRuler.graphics.moveTo(targetDrawX, targetDrawY);
+                topRuler.graphics.lineTo(targetDrawX, targetDrawY + (32 - targetDrawY));
+            }
+
+            topRuler.graphics.setStrokeStyle(2);
+            topRuler.graphics.beginStroke("#000000");
+            len = Math.floor(640 / 12) + 1;
+            for(i=0; i<len; i++)
+            {
+                var targetDrawX = 12 * i + startX;
+                var targetDrawY = 24;
+                topRuler.graphics.moveTo(targetDrawX, targetDrawY);
+                topRuler.graphics.lineTo(targetDrawX, targetDrawY + (32 - targetDrawY));
+            }
+
             rulersStage.update();
         }
 
